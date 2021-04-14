@@ -1,0 +1,8 @@
+# Example queue configuration
+queues:
+    # Unique name of the queue
+  - name: queue-1
+    # Poll interval in milliseconds
+    pollingInterval: 200
+    # Number of simultaneous jobs
+    maxWorkers: 2

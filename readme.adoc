@@ -1,0 +1,35 @@
+= Fireworq Queue Initializer
+
+A config based script that creates queues in a Fireworq instance as necessary.
+
+== Usage
+
+=== CLI
+
+[source, shell-session]
+----
+$ ./setup -q http://some.queue.host -c my-config.yml
+2021/04/14 14:45:46 Loading queue config from queues.yml
+2021/04/14 14:45:46 Fetching queues from http://localhost:8083
+2021/04/14 14:45:46 Creating new queue queue-1
+2021/04/14 14:45:46 Done
+----
+
+==== Flags
+
+`-q|--queue`::
+*Optional*
++
+URL to the Fireworq instance to initialize.  Defaults to `\http://localhost`.
+
+`-c|--config`::
+*Optional*
++
+Path to the queue configuration file.  Defaults to `./queues.yml`
+
+=== Docker
+
+[source, dockerfile]
+----
+
+----
