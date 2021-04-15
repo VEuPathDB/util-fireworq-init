@@ -12,4 +12,4 @@ RUN apk add --no-cache wget tar zip \
 
 COPY queues.yml queues.yml
 
-CMD ["sh", "-c", "(fireworq &); sleep 5s ; setup"]
+CMD ["sh", "-c", "fireworq & lpid=$! sleep 5s; setup; wait $lpid"]
