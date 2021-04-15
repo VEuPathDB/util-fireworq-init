@@ -7,19 +7,22 @@ fireworq &
 lpid=$!
 
 # Wait for fireworq to be available
-while ! nc -z localhost; do
+while ! nc -z localhost && kill -0 $lpid > /dev/null 2>&1; do
   echo "Waiting for fireworq"
   sleep 2s
 done
 
-# Let fireworq wrap up any remaining setup
-# (setup continues after the server is available)
-sleep 5s
+if kill -0 $lpid > /dev/null 2>&1; then
+  # Let fireworq wrap up any remaining setup
+  # (setup continues after the server is available)
+  sleep 5s
 
-# Run queue init
-setup-queues
-
-# Wait for fireworq
+  # Run queue init
+  setup-queues
+else
+  echo "Fireworq crashed, shutting down"
+  exit 1
+fi
 
 function shutdown() {
   echo "Caught shutdown signal"

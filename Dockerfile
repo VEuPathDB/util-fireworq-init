@@ -12,4 +12,4 @@ RUN apk add --no-cache wget tar zip \
 
 COPY queues.yml queues.yml
 
-CMD entrypoint
+CMD /usr/local/bin/entrypoint
