@@ -11,5 +11,6 @@ RUN apk add --no-cache wget tar zip \
     && tar -xf setup.tar.gz -C /usr/local/bin && rm setup.tar.gz
 
 COPY queues.yml queues.yml
+COPY entrypoint /usr/local/bin/entrypoint
 
 CMD /usr/local/bin/entrypoint

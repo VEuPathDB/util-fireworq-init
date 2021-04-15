@@ -6,8 +6,12 @@ trap shutdown INT
 fireworq &
 lpid=$!
 
+address="${FIREWORQ_BIND:-localhost:8080}"
+ncTarget=$(echo $address | sed 's/\[::\]/localhost/;s/:/ /')
+
+echo "Checking fireworq status"
 # Wait for fireworq to be available
-while ! nc -z localhost; do
+while ! nc -z $ncTarget; do
   if ! kill -0 $lpid > /dev/null 2>&1; then
     echo "Fireworq crashed, shutting down"
     exit 1
@@ -22,7 +26,9 @@ if kill -0 $lpid > /dev/null 2>&1; then
   sleep 5s
 
   # Run queue init
-  setup-queues
+  setup-queues -q $address
+
+  wait $lpid
 else
   echo "Fireworq crashed, shutting down"
   exit 1

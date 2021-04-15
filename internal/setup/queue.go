@@ -17,7 +17,7 @@ type Queue struct {
 }
 
 func LoadLiveQueues(url string) map[string]Queue {
-	res := simple.GetRequest(url + "/queues").Submit()
+	res := simple.GetRequest(prefixUrl(url) + "/queues").Submit()
 	bail(res.GetError())
 
 	if res.MustGetResponseCode() != 200 {
@@ -36,7 +36,7 @@ func LoadLiveQueues(url string) map[string]Queue {
 }
 
 func SubmitQueue(url string, q Queue) {
-	res := simple.PutRequest(url + "/queue/" + q.Name).
+	res := simple.PutRequest(prefixUrl(url) + "/queue/" + q.Name).
 		MarshalBody(q, simple.MarshallerFunc(json.Marshal)).
 		Submit()
 	bail(res.GetError())
