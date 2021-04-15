@@ -7,7 +7,11 @@ fireworq &
 lpid=$!
 
 # Wait for fireworq to be available
-while ! nc -z localhost && kill -0 $lpid > /dev/null 2>&1; do
+while ! nc -z localhost; do
+  if kill -0 $lpid > /dev/null 2>&1; then
+    echo "Fireworq crashed, shutting down"
+    exit 1
+  fi
   echo "Waiting for fireworq"
   sleep 2s
 done
