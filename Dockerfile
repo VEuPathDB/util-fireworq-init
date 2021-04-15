@@ -1,6 +1,6 @@
 FROM alpine:3
 
-ARG SETUP_UTIL_URL=https://github.com/VEuPathDB/util-fireworq-init/releases/download/v1.1.3/queue-setup.v1.1.3.x64.tar.gz
+ARG SETUP_UTIL_URL=https://github.com/VEuPathDB/util-fireworq-init/releases/download/v1.1.4/queue-setup.v1.1.4.x64.tar.gz
 ARG FIREWORQ_URL=https://github.com/fireworq/fireworq/releases/download/v1.4.1/fireworq_linux_amd64.zip
 
 # Install utils, fetch fireworq, fetch queue setup
