@@ -2,7 +2,7 @@ VERSION=$(shell git describe --tags 2>/dev/null || echo "snapshot")
 
 .PHONY: build
 build:
-	@CGO_ENABLED=0 go build -o bin/setup cmd/setup/main.go
+	@CGO_ENABLED=0 go build -o bin/setup-queues cmd/setup/main.go
 
 .PHONY: test
 test:
@@ -10,5 +10,5 @@ test:
 
 .PHONY: release
 release:
-	@cd bin && tar -czf queue-setup.$(VERSION).x64.tar.gz setup
-	@rm bin/setup
+	@cd bin && tar -czf queue-setup.$(VERSION).x64.tar.gz setup-queues
+	@rm bin/setup-queues

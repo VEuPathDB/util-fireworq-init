@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+trap shutdown INT
+
+# Start fireworq in the background
+fireworq &
+lpid=$!
+
+# Wait for fireworq to be available
+while ! nc -z localhost; do
+  echo "Waiting for fireworq"
+  sleep 2s
+done
+
+# Let fireworq wrap up any remaining setup
+# (setup continues after the server is available)
+sleep 5s
+
+# Run queue init
+setup-queues
+
+# Wait for fireworq
+
+function shutdown() {
+  echo "Caught shutdown signal"
+  kill -s SIGINT $lpid
+}
