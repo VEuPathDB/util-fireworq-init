@@ -54,7 +54,7 @@ type QueuePut struct {
 }
 
 func SubmitQueue(url string, q QueueConfig) {
-	log.Println("Submitting queue: " + q.QueueName)
+	log.Printf(`Submitting queue "%s".`, q.QueueName)
 
 	res := simple.PutRequest(prefixUrl(url)+"/queue/"+q.QueueName).
 		MarshalBody(QueuePut{
@@ -72,11 +72,11 @@ func SubmitQueue(url string, q QueueConfig) {
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 type CategoryPut struct {
-	QueueName string `json:"name"`
+	QueueName string `json:"queue_name"`
 }
 
 func SubmitCategory(url string, q QueueConfig) {
-	log.Printf("Submitting category %s for queue %s.", q.Category, q.QueueName)
+	log.Printf(`Submitting category "%s" for queue "%s".`, q.Category, q.QueueName)
 
 	res := simple.PutRequest(prefixUrl(url)+"/routing/"+q.Category).
 		MarshalBody(CategoryPut{
