@@ -6,3 +6,5 @@ queues:
     pollingInterval: 200
     # Number of simultaneous jobs
     maxWorkers: 2
+    # Routing category
+    category: cat-1
