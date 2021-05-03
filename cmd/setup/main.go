@@ -21,6 +21,7 @@ func main() {
 		if _, ok := liveQueues[k]; !ok {
 			log.Println("Creating new queue " + k)
 			setup.SubmitQueue(cliConf.QueueURL, queueConf[k])
+			setup.AwaitQueue(cliConf.QueueURL, queueConf[k])
 			setup.SubmitCategory(cliConf.QueueURL, queueConf[k])
 		}
 	}

@@ -2,6 +2,8 @@ package setup
 
 import (
 	"encoding/json"
+	"log"
+	"time"
 
 	"github.com/Foxcapades/Go-Chainrequest/simple"
 )
@@ -16,6 +18,8 @@ type QueueConfig struct {
 	MaxWorkers      uint   `json:"max_workers" yaml:"maxWorkers"`
 	Category        string `json:"job_category" yaml:"category"`
 }
+
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 type QueueGet struct {
 	QueueName       string `json:"name"`
@@ -42,6 +46,8 @@ func LoadLiveQueues(url string) map[string]QueueGet {
 	return out
 }
 
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
+
 type QueuePut struct {
 	PollingInterval uint `json:"polling_interval"`
 	MaxWorkers      uint `json:"max_workers"`
@@ -61,6 +67,8 @@ func SubmitQueue(url string, q QueueConfig) {
 	}
 }
 
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
+
 type CategoryPut struct {
 	QueueName string `json:"name"`
 }
@@ -75,5 +83,25 @@ func SubmitCategory(url string, q QueueConfig) {
 
 	if res.MustGetResponseCode() != 200 {
 		panic("unexpected response from queue server: " + string(res.MustGetBody()))
+	}
+}
+
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
+
+func AwaitQueue(url string, q QueueConfig) {
+	time.Sleep(2 * time.Second)
+	for true {
+		res := simple.GetRequest(prefixUrl(url) + "/queue/" + q.QueueName).Submit()
+		bail(res.GetError())
+
+		switch res.MustGetResponseCode() {
+		case 200:
+			return
+		case 404:
+			log.Println("waiting for fireworq to reload")
+			time.Sleep(2 * time.Second)
+		default:
+			panic("Unexpected response from queue server: " + string(res.MustGetBody()))
+		}
 	}
 }
