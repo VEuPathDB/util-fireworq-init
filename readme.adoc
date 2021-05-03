@@ -27,6 +27,18 @@ URL to the Fireworq instance to initialize.  Defaults to `\http://localhost`.
 +
 Path to the queue configuration file.  Defaults to `./queues.yml`
 
+=== Config
+
+.Example Queue Config
+[source, yaml]
+----
+queues:
+  - name: queue-1
+    pollingInterval: 200
+    maxWorkers: 2
+    category: cat-1
+----
+
 === Docker
 
 .Dockerfile
