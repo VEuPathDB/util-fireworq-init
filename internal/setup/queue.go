@@ -13,10 +13,10 @@ type QueueWrapper struct {
 }
 
 type QueueConfig struct {
-	QueueName       string `json:"name" yaml:"name"`
-	PollingInterval uint   `json:"polling_interval" yaml:"pollingInterval"`
-	MaxWorkers      uint   `json:"max_workers" yaml:"maxWorkers"`
-	Category        string `json:"job_category" yaml:"category"`
+	QueueName       string   `json:"name" yaml:"name"`
+	PollingInterval uint     `json:"polling_interval" yaml:"pollingInterval"`
+	MaxWorkers      uint     `json:"max_workers" yaml:"maxWorkers"`
+	Categories      []string `json:"job_category" yaml:"categories"`
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -28,6 +28,8 @@ type QueueGet struct {
 }
 
 func LoadLiveQueues(url string) map[string]QueueGet {
+	log.Printf("Loading previously configured queues from Fireworq")
+
 	res := simple.GetRequest(prefixUrl(url) + "/queues").Submit()
 	bail(res.GetError())
 
@@ -73,21 +75,6 @@ func SubmitQueue(url string, q QueueConfig) {
 
 type CategoryPut struct {
 	QueueName string `json:"queue_name"`
-}
-
-func SubmitCategory(url string, q QueueConfig) {
-	log.Printf(`Submitting category "%s" for queue "%s".`, q.Category, q.QueueName)
-
-	res := simple.PutRequest(prefixUrl(url)+"/routing/"+q.Category).
-		MarshalBody(CategoryPut{
-			QueueName: q.QueueName,
-		}, simple.MarshallerFunc(json.Marshal)).
-		Submit()
-	bail(res.GetError())
-
-	if res.MustGetResponseCode() != 200 {
-		panic("unexpected response from queue server: " + string(res.MustGetBody()))
-	}
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //

@@ -9,6 +9,7 @@ import (
 
 const (
 	errBadString = `Queue config entry %d missing required field "%s".`
+	errBadList   = `Queue config entry %d field "%s" must be present and have 1 or more entries.`
 	errBadUint   = `Queue config entry %d field "%s" is missing or set to 0.` +
 		`  This value must be a positive, non-zero integer.`
 )
@@ -39,10 +40,6 @@ func LoadQueueConfig(confPath string) map[string]QueueConfig {
 
 		if queues.Queues[i].MaxWorkers == 0 {
 			panic(fmt.Sprintf(errBadUint, i+1, "maxWorkers"))
-		}
-
-		if len(queues.Queues[i].Category) == 0 {
-			panic(fmt.Sprintf(errBadString, i+1, "name"))
 		}
 
 		if _, ok := out[queues.Queues[i].QueueName]; ok {

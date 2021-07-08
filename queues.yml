@@ -7,4 +7,5 @@ queues:
     # Number of simultaneous jobs
     maxWorkers: 2
     # Routing category
-    category: cat-1
+    categories:
+      - cat-1
