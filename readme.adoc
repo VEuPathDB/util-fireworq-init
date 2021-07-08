@@ -9,10 +9,12 @@ A config based script that creates queues in a Fireworq instance as necessary.
 [source, shell-session]
 ----
 $ ./setup -q http://some.queue.host -c my-config.yml
-2021/04/14 14:45:46 Loading queue config from queues.yml
-2021/04/14 14:45:46 Fetching queues from http://localhost:8083
-2021/04/14 14:45:46 Creating new queue queue-1
-2021/04/14 14:45:46 Done
+2021/07/08 18:07:46 Loading queue config from queues.yml
+2021/07/08 18:07:46 Loading previously configured queues from Fireworq
+2021/07/08 18:07:46 Loading previously configured routes from Fireworq
+2021/07/08 18:07:46 Creating new queue queue-1
+2021/07/08 18:07:46 Submitting route "cat-1" for queue "queue-1".
+2021/07/08 18:07:46 Done
 ----
 
 ==== Flags
@@ -40,9 +42,11 @@ queues:
       - cat-1
 ----
 
+A real world example queue config can be found https://github.com/VEuPathDB/service-multi-blast/blob/master/fireworq/queues.yml[here].
+
 === Docker
 
-.Dockerfile
+.Example Dockerfile
 [source, dockerfile]
 ----
 FROM alpine:3
@@ -61,3 +65,5 @@ COPY queues.yml queues.yml
 
 CMD /usr/local/bin/entrypoint
 ----
+
+A real world example Dockerfile can be found https://github.com/VEuPathDB/service-multi-blast/blob/master/fireworq/Dockerfile[here].
