@@ -36,7 +36,8 @@ queues:
   - name: queue-1
     pollingInterval: 200
     maxWorkers: 2
-    category: cat-1
+    categories:
+      - cat-1
 ----
 
 === Docker
